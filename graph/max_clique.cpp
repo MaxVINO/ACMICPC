@@ -1,4 +1,42 @@
-//最大团（POJ 1419 最大独立集）
+//姿势1
+#define N 110
+bool flag[N],a[N][N];
+int ans,cnt[N],group[N],m,n,vis[N];
+bool dfs(int u,int pos)
+{
+	int i,j;
+	for(i=u+1;i<=n;i++)
+	{
+		if(cnt[i]+pos<=ans) return 0;
+		if(a[u][i])
+		{
+			for(j=0;j<pos;j++) if(! a[i][vis[j]]) break;
+			if(j==pos)
+			{
+				vis[pos]=i;
+				if(dfs(i,pos+1)) return 1;
+			}
+		}
+	}
+	if(pos>ans)
+	{
+		for(i=0;i<pos;i++) group[i]=vis[i];
+		ans=pos;
+		return 1;
+	}
+	return 0;
+}
+void maxclique()
+{
+	ans=-1;
+	for(int i=n;i>0;i--)
+	{
+		vis[0]=i;
+		dfs(i,1);
+		cnt[i]=ans;
+	}
+}
+//姿势2
 #define N 110
 int a[N][N],n,m,ret[N];
 void clique(int n,int *u,int a[][N],int size,int &max,int &bb,int *res,int *rr,int *c)
@@ -25,21 +63,4 @@ int maxclique(int n,int a[][N],int *ret)
 		clique(vn,v,a,1,max,bb,ret,rr,c);		c[i]=max;
 	}
 	return max;
-}
-int main ()
-{
-	int tttt,i,j;
-	scanf("%d",&tttt);
-	while (tttt--)
-	{
-		scanf("%d%d",&n,&m);
-		for(i=0;i<n;i++)	for(j=0;j<n;j++)	a[i][j]=1;
-		while (m--)
-		{	int u,v;	scanf("%d%d",&u,&v);	u--;v--;	a[u][v]=a[v][u]=0;	}
-		int ans=maxclique(n,a,ret);
-		printf("%d\n",ans);	printf("%d",ret[0]+1);
-		for(i=1;i<ans;i++) printf(" %d",ret[i]+1);
-		printf("\n");
-	}
-	return 0;
 }
