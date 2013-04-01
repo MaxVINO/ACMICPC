@@ -89,6 +89,15 @@ struct matrix
 			c.a[i][j]=a[i][j]+b.a[i][j];
 		return c;
 	}
+	void printmatrix()
+	{
+		for(int i=1;i<=n;i++)
+		{
+			for(int j=1;j<=n;j++)
+				printf("%d ",a[i][j]);
+			printf("\n");
+		}
+	}
 };
 int fastget()
 {
