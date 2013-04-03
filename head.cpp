@@ -102,13 +102,15 @@ struct matrix
 int fastget()
 {
 	char c; int ans=0; c=getchar();
-	while (! (c>='0' && c<='9')) c=getchar();
+	int sign=1;
+	while (! (c>='0' && c<='9' || c=='-')) c=getchar();
+	if(c=='-') sign=-1,c=getchar();
 	while (c>='0' && c<='9')
 	{
 		ans=(ans<<3)+(ans<<1)+c-'0';
 		c=getchar();
 	}
-	return ans;
+	return ans*sign;
 }
 void fastput(int x)
 {
@@ -116,6 +118,7 @@ void fastput(int x)
 	if(x==0) puts("0");
 	else
 	{
+		if(x<0) putchar('-'),x=-x;
 		while (x) { s[a++]=x%10+'0'; x/=10; }
 		for(a--;a>=0;a--) putchar(s[a]);
 		putchar('\n');
